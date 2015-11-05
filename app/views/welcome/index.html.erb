@@ -1,0 +1,46 @@
+<table class="table">
+  <% totalBought = 0 %>
+  <% totalNow = 0 %>
+  <tr>
+    <td><b></b></td>
+    <td><b></b></td>
+    <td><b>USDILS</b></td>
+    <td><b><%= @usdils %></b></td>
+    <td><b>EURILS</b></td>
+    <td><b><%= @eurils %></b></td>
+    <td><b></b></td>
+    <td><b></b></td>
+  </tr>
+  <tr>
+    <td><b>symbol</b></td>
+    <td><b>price</b></td>
+    <td><b>number</b></td>
+    <td><b>current</b></td>
+    <td><b>bought</b></td>
+    <td><b>current</b></td>
+    <td><b>current-ILS</b></td>
+    <td><b>change</b></td>
+  </tr>
+  <% @dic.each do |k,v| %>
+    <tr>
+      <td><%= k.symbol %></td>
+      <td><%= k.price %>$</td>
+      <td><%= k.number %></td>
+      <td><%= v %></td>
+      <td><%= (k.number * k.price).round(2) %>$</td>
+      <td><%= (k.number * v ).round(2) %>$</td>
+      <td><%= (k.number * v * @usdils).round(2) %>₪</td>
+      <td><%= (100*(v/k.price - 1)).round(2) %>%</td>
+      <% totalBought += (k.number * k.price).round(2) %>
+      <% totalNow += (k.number * v ).round(2) %>
+    </tr>
+  <% end %>
+  <td><b></b></td>
+  <td><b></b></td>
+  <td><b></b></td>
+  <td><b></b></td>
+  <td><b><%= totalBought.round(2) %>$</b></td>
+  <td><b><%= totalNow.round(2) %>$</b></td>
+  <td><b><%= (totalNow * @usdils).round(2) %>₪</b></td>
+  <td><b><%= (100*(totalNow/totalBought - 1)).round(2) %>%</b></td>
+</table>
